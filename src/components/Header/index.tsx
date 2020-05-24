@@ -21,10 +21,6 @@ const Header: React.FC<HeaderProps> = ({ size = 'large' }: HeaderProps) => (
         <LinkWrapper currentPath={window.location.pathname === '/import'}>
           <Link to="/import">Importar</Link>
         </LinkWrapper>
-        {
-          console.log(window.location.pathname)
-          // Todo
-        }
       </nav>
     </header>
   </Container>

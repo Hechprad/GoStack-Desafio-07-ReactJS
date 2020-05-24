@@ -40,7 +40,10 @@ const Dashboard: React.FC = () => {
       const transactionsWithFotmattedValueAndDate = response.data.transactions.map(
         (transaction: Transaction) => ({
           ...transaction,
-          formattedValue: formatValue(transaction.value),
+          formattedValue:
+            transaction.type === 'outcome'
+              ? `- ${formatValue(transaction.value)}`
+              : formatValue(transaction.value),
           formattedDate: new Date(transaction.created_at).toLocaleDateString(
             'pt-br',
           ),
@@ -49,10 +52,16 @@ const Dashboard: React.FC = () => {
 
       setTransactions(transactionsWithFotmattedValueAndDate);
 
+      const { incomeValue, outcomeValue, totalValue } = {
+        incomeValue: formatValue(response.data.balance.income),
+        outcomeValue: formatValue(response.data.balance.outcome),
+        totalValue: formatValue(response.data.balance.total),
+      };
+
       const balanceWithFotmattedValues = {
-        income: formatValue(response.data.balance.income),
-        outcome: formatValue(response.data.balance.outcome),
-        total: formatValue(response.data.balance.total),
+        income: incomeValue,
+        outcome: outcomeValue,
+        total: totalValue,
       };
 
       setBalance(balanceWithFotmattedValues);
@@ -106,7 +115,6 @@ const Dashboard: React.FC = () => {
                     <tr key={transaction.id}>
                       <td className="title">{transaction.title}</td>
                       <td className={transaction.type}>
-                        {transaction.type === 'outcome' && '- '}
                         {transaction.formattedValue}
                       </td>
                       <td>{transaction.category.title}</td>
