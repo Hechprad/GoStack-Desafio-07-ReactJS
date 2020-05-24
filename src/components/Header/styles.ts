@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 interface ContainerProps {
   size?: 'small' | 'large';
@@ -17,20 +17,33 @@ export const Container = styled.div<ContainerProps>`
     justify-content: space-between;
 
     nav {
+      display: flex;
+
       a {
         color: #fff;
         text-decoration: none;
         font-size: 16px;
         transition: opacity 0.2s;
 
-        & + a {
-          margin-left: 32px;
-        }
-
         &:hover {
           opacity: 0.6;
         }
       }
+      div + div {
+        margin-left: 32px;
+      }
     }
   }
+`;
+
+interface LinkWrapperProps {
+  currentPath: boolean;
+}
+export const LinkWrapper = styled.div<LinkWrapperProps>`
+  padding-bottom: 10px;
+  ${props =>
+    props.currentPath &&
+    css`
+      border-bottom: 2px solid #ff872c;
+    `}
 `;
